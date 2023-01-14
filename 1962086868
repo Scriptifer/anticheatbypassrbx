@@ -1,0 +1,28 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local BlankFunction = function()end
+local function begin()
+	LocalPlayer = Players.LocalPlayer
+	local function childAdded(v)
+		if v then
+			if v:IsA("PlayerScripts") then
+				v.ChildAdded:Connect(function(scr)
+					if scr:IsA("LocalScript") then
+						local senv = getsenv(scr)
+						if senv.kick then
+							if typeof(senv.kick) == "function" then
+								senv.kick = BlankFunction
+							end
+						end
+					end
+				end)
+			end
+		end
+	end
+	childAdded(LocalPlayer:FindFirstChildOfClass("PlayerScripts"))
+	LocalPlayer.ChildAdded:Connect(childAdded)
+end
+if LocalPlayer then
+	begin()
+end
+Players:GetPropertyChangedSignal("LocalPlayer"):Connect(begin)
