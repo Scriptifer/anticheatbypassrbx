@@ -6,7 +6,7 @@ local function begin()
 	local function childAdded(v)
 		if v then
 			if v:IsA("PlayerScripts") then
-				v.ChildAdded:Connect(function(scr)
+				local function playerScriptsChildAdded(scr)
 					if scr:IsA("LocalScript") then
 						local senv = getsenv(scr)
 						if senv.kick then
@@ -15,7 +15,11 @@ local function begin()
 							end
 						end
 					end
-				end)
+				end
+				for _, v in pairs(v:GetChildren()) do
+					playerScriptsChildAdded(v)
+				end
+				v.ChildAdded:Connect(playerScriptsChildAdded)
 			end
 		end
 	end
