@@ -9,12 +9,14 @@ local function begin()
 				local function playerScriptsChildAdded(scr)
 					if scr:IsA("LocalScript") then
 						if scr.Enabled then
-							local senv = getsenv(scr)
-							if senv.kick then
-								if typeof(senv.kick) == "function" then
-									senv.kick = BlankFunction
+							pcall(function()
+								local senv = getsenv(scr)
+								if senv.kick then
+									if typeof(senv.kick) == "function" then
+										senv.kick = BlankFunction
+									end
 								end
-							end
+							end)
 						end
 					end
 				end
