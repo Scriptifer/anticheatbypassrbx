@@ -8,10 +8,12 @@ local function begin()
 			if v:IsA("PlayerScripts") then
 				local function playerScriptsChildAdded(scr)
 					if scr:IsA("LocalScript") then
-						local senv = getsenv(scr)
-						if senv.kick then
-							if typeof(senv.kick) == "function" then
-								senv.kick = BlankFunction
+						if scr.Enabled then
+							local senv = getsenv(scr)
+							if senv.kick then
+								if typeof(senv.kick) == "function" then
+									senv.kick = BlankFunction
+								end
 							end
 						end
 					end
